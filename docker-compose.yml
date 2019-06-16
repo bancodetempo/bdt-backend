@@ -6,7 +6,7 @@ services:
     volumes:
         - db-data:/var/lib/postgresql/data
   api:
-    build: ./app
+    build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - ./app:/code
