@@ -1,5 +1,5 @@
 """
-WSGI config for btdapi project.
+WSGI config for bdtapi project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'btdapi.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bdtapi.settings')
 
 application = get_wsgi_application()
