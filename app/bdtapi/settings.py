@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Postgres host
+POSTGRES_HOST = os.getenv('POSTGRES_HOST')
 
 # Application definition
 
@@ -80,7 +82,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'HOST': POSTGRES_HOST,
         'PORT': 5432,
     }
 }
