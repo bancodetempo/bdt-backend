@@ -10,7 +10,7 @@ jobs:
           PIPENV_VENV_IN_PROJECT: true
           DATABASE_URL: postgresql://root@localhost/circle_test?sslmode=disable
           SECRET_KEY: -1ovmv9sm9&700#^h2cpam_4mnrq)ms)^%^m0va)%3q5+d8cll
-          ALLOWED_HOSTS: *
+          ALLOWED_HOSTS: "*"
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
