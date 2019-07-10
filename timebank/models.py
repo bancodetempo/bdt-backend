@@ -8,7 +8,7 @@ class Account(models.Model):
 
     class Meta:
         verbose_name = 'Conta'
-        verbose_name_plural = 'Contas'
+        verbose_name_plural = 'Contas de usuários'
 
     id = models.AutoField(primary_key=True)
     uid = models.UUIDField(
