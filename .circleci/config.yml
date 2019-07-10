@@ -21,6 +21,10 @@ jobs:
           POSTGRES_DB: circle_test
 
     working_directory: ~/repo
+    branches:
+        only:
+            - master
+            - development
 
     steps:
       - checkout
