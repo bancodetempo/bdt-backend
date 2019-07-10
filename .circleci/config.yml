@@ -22,9 +22,9 @@ jobs:
 
     working_directory: ~/repo
     branches:
-        only:
-            - master
-            - development
+      only:
+        - master
+        - development
 
     steps:
       - checkout
