@@ -2,13 +2,15 @@ import uuid
 
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractBaseUser
+from django.utils.translation import gettext_lazy as _
 
 
 class Account(models.Model):
 
     class Meta:
         verbose_name = 'Conta'
-        verbose_name_plural = 'Contas de usuários -'
+        verbose_name_plural = 'Contas de usuários'
 
     id = models.AutoField(primary_key=True)
     uid = models.UUIDField(
@@ -16,10 +18,6 @@ class Account(models.Model):
         editable=False,
         default=uuid.uuid4,
         verbose_name='Identificador Público'
-    )
-    owner = models.OneToOneField(
-        get_user_model(),
-        on_delete=models.PROTECT
     )
     balance = models.IntegerField(
         verbose_name='Saldo'
