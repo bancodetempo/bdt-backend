@@ -19,9 +19,20 @@ class Account(models.Model):
         default=uuid.uuid4,
         verbose_name='Identificador Público'
     )
-    balance = models.IntegerField(
-        verbose_name='Saldo'
+    balance = models.DecimalField(
+        verbose_name='Saldo',
+        decimal_places=1,
+        max_digits=5,
     )
+    owner = models.OneToOneField(
+        get_user_model(),
+        on_delete=models.SET_NULL,
+        null=True,
+    )
+
+    def __str__(self):
+        account_name = '{} - {}H'.format(str(self.owner), str(self.balance))
+        return account_name
 
 class AccountTransaction(models.Model):
 
