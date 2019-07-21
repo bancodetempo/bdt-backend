@@ -72,5 +72,5 @@ class AccountTransaction(models.Model):
         help_text='Saldo depois da transação',
     )
     created = models.DateTimeField(
-        auto_now_add=True
+        auto_now_add=True,
     )
