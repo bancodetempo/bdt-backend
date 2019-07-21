@@ -59,8 +59,11 @@ class AccountTransaction(models.Model):
         choices=TRANSACTION_TYPE_CHOICES,
         verbose_name='Tipo de transação'
     )
-    delta = models.IntegerField(
-        help_text='Delta do saldo'
+    delta = models.DecimalField(
+        verbose_name='Valor da transação',
+        decimal_places=1,
+        max_digits=5,
+        help_text='Valor da transação'
     )
     reference = models.TextField(
         blank=False
