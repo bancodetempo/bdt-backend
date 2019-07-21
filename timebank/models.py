@@ -49,11 +49,11 @@ class AccountTransaction(models.Model):
     )
 
     id = models.AutoField(
-        primary_key=True
+        primary_key=True,
     )
     account = models.ForeignKey(
         Account,
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
     )
     transaction_type = models.IntegerField(
         choices=TRANSACTION_TYPE_CHOICES,
@@ -63,15 +63,14 @@ class AccountTransaction(models.Model):
         verbose_name='Valor da transação',
         decimal_places=1,
         max_digits=5,
-        help_text='Valor da transação'
+        help_text='Valor da transação',
     )
     reference = models.TextField(
-        blank=False
+        blank=False,
     )
     debug_balace = models.IntegerField(
-        help_text='Saldo depois da transação'
+        help_text='Saldo depois da transação',
     )
     created = models.DateTimeField(
         auto_now_add=True
     )
-
