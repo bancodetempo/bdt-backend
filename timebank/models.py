@@ -72,3 +72,8 @@ class AccountTransaction(models.Model):
     created = models.DateTimeField(
         auto_now_add=True,
     )
+
+    def __str__(self):
+        transaction_type = self.get_transaction_type_display()
+        transaction_name = '{} {} {}'.format(self.delta, transaction_type, self.account.owner.email)
+        return transaction_name
