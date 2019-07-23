@@ -34,6 +34,7 @@ class Account(models.Model):
         account_name = '{} - {}H'.format(str(self.owner), str(self.balance))
         return account_name
 
+
 class AccountTransaction(models.Model):
 
     class Meta:
@@ -67,9 +68,6 @@ class AccountTransaction(models.Model):
     )
     reference = models.TextField(
         blank=False,
-    )
-    debug_balace = models.IntegerField(
-        help_text='Saldo depois da transação',
     )
     created = models.DateTimeField(
         auto_now_add=True,
