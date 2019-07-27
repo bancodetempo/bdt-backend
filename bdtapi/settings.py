@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
     'timebank.apps.TimebankConfig',
+    'orders',
 ]
 
 MIDDLEWARE = [
