@@ -1,8 +1,8 @@
 import uuid
+from decimal import Decimal
 
-from django.db import models
+from django.db import models, transaction
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AbstractBaseUser
 from django.utils.translation import gettext_lazy as _
 
 
@@ -34,6 +34,20 @@ class Account(models.Model):
         account_name = '{} - {}H'.format(str(self.owner), str(self.balance))
         return account_name
 
+    @classmethod
+    def deposit(cls, user, amount):
+        with transaction.atomic():
+            account = cls.objects.select_for_update().get(owner=user)
+            account.balance += Decimal(amount)
+            account.save()
+
+    @classmethod
+    def withdraw(cls, user, amount):
+        with transaction.atomic():
+            account = cls.objects.select_for_update().get(owner=user)
+            # TODO:  Put validation to check for sufficient funds
+            account.balance -= Decimal(amount)
+            account.save()
 
 class AccountTransaction(models.Model):
 
