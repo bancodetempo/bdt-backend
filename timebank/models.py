@@ -5,6 +5,8 @@ from django.db import models, transaction
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
+from orders.models import Order
+
 
 class Account(models.Model):
 
@@ -35,19 +37,36 @@ class Account(models.Model):
         return account_name
 
     @classmethod
-    def deposit(cls, user, amount):
+    def deposit(cls, user, amount, reference=None):
         with transaction.atomic():
             account = cls.objects.select_for_update().get(owner=user)
             account.balance += Decimal(amount)
             account.save()
 
+            AccountTransaction.create(
+                account=account,
+                transaction_type=AccountTransaction.TRANSACTION_TYPE_IN,
+                delta=amount,
+                reference=reference,
+                balance_after_transaction=account.balance,
+            )
+
     @classmethod
-    def withdraw(cls, user, amount):
+    def withdraw(cls, user, amount, reference=None):
         with transaction.atomic():
             account = cls.objects.select_for_update().get(owner=user)
             # TODO:  Put validation to check for sufficient funds
             account.balance -= Decimal(amount)
             account.save()
+
+            AccountTransaction.create(
+                account=account,
+                transaction_type=AccountTransaction.TRANSACTION_TYPE_OUT,
+                delta=amount,
+                reference=reference,
+                balance_after_transaction=account.balance,
+            )
+
 
 class AccountTransaction(models.Model):
 
@@ -80,8 +99,16 @@ class AccountTransaction(models.Model):
         max_digits=5,
         help_text='Valor da transação',
     )
-    reference = models.TextField(
-        blank=False,
+    reference = models.ForeignKey(
+        Order,
+        on_delete=models.PROTECT,
+        null=True,
+    )
+    balance_after_transaction = models.DecimalField(
+        verbose_name='Saldo depois da transação',
+        decimal_places=1,
+        max_digits=5,
+        help_text='Saldo depois da transação',
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -91,3 +118,13 @@ class AccountTransaction(models.Model):
         transaction_type = self.get_transaction_type_display()
         transaction_name = '{} {} {}'.format(self.delta, transaction_type, self.account.owner.email)
         return transaction_name
+
+    @classmethod
+    def create(cls, account, transaction_type, delta, reference, balance_after_transaction):
+        return cls.objects.create(
+            account=account,
+            transaction_type=transaction_type,
+            delta=delta,
+            reference=reference,
+            balance_after_transaction=balance_after_transaction,
+        )
