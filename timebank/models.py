@@ -103,6 +103,7 @@ class AccountTransaction(models.Model):
     )
     account = models.ForeignKey(
         Account,
+        verbose_name='Conta',
         on_delete=models.PROTECT,
     )
     transaction_type = models.IntegerField(
