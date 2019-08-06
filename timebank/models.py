@@ -67,6 +67,22 @@ class Account(models.Model):
                 balance_after_transaction=account.balance,
             )
 
+    @classmethod
+    def create_user_with_account(cls, user_email, password=None):
+        user_model = get_user_model()
+        new_user = user_model.create_user(
+                user_email,
+                password,
+                is_active=False,
+                is_staff=False,
+            )
+
+        created_account = cls.objects.create(
+            balance=0,
+            owner=new_user,
+        )
+        return created_account, new_user
+
 
 class AccountTransaction(models.Model):
 

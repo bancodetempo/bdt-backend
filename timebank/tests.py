@@ -33,3 +33,13 @@ class AccountTestCase(TestCase):
         self.assertEqual(transaction.delta, 1.5)
         self.assertEqual(transaction.account, self.user.account)
         self.assertEqual(transaction.balance_after_transaction, self.user.account.balance)
+
+    def test_create_user_with_account(self):
+        new_user_email = 'test@user.com'
+        Account.create_user_with_account(new_user_email, 'dontreallyknow')
+        self.assertEqual(Account.objects.count(), 1)
+        user_account = Account.objects.first()
+        user_model = get_user_model()
+        created_user = user_model.objects.filter(email=new_user_email)
+        self.assertEqual(created_user.count(), 1)
+        self.assertEqual(user_account.owner, created_user.first())

@@ -1,5 +1,3 @@
-import uuid
-
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import PermissionsMixin
@@ -67,3 +65,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = 'Usuário'
         verbose_name_plural = 'Usuários'
+
+    @classmethod
+    def create_user(cls, email, password, is_active, is_staff):
+        extra_fields = {}
+        extra_fields['is_active'] = is_active
+        extra_fields['is_staff'] = is_staff
+        created_user = cls.objects.create_user(email, password, **extra_fields)
+        return created_user
