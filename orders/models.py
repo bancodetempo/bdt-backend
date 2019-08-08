@@ -1,5 +1,9 @@
-from django.db import models
+import uuid
+
+from django.db import models, transaction
 from django.contrib.auth import get_user_model
+
+from timebank.models import Account
 
 
 class Order(models.Model):
@@ -15,7 +19,12 @@ class Order(models.Model):
         (STATUS_PENDING, 'Pendente'),
         (STATUS_CONFIRMED, 'Efetuado'),
     )
-
+    uid = models.UUIDField(
+        unique=True,
+        editable=False,
+        default=uuid.uuid4,
+        verbose_name='Identificador Público'
+    )
     requester = models.ForeignKey(
         get_user_model(),
         verbose_name='Solicitante',
@@ -55,3 +64,19 @@ class Order(models.Model):
         exhibition = '{} solicitou {} de {}'.format(requester, description, grantor)
 
         return exhibition
+
+    @classmethod
+    def confirm_order(cls, order_uid):
+        with transaction.atomic():
+            order = cls.objects.select_for_update().get(uid=order_uid)
+            order_price = order.order_price
+            order.status = cls.STATUS_CONFIRMED
+            order.save()
+            requester = order.requester
+            grantor = order.grantor
+
+            Account.withdraw(requester, order_price)
+            Account.deposit(grantor, order_price)
+
+
+

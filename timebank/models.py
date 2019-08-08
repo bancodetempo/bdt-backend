@@ -1,11 +1,8 @@
-import uuid
 from decimal import Decimal
 
 from django.db import models, transaction
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-
-from orders.models import Order
 
 
 class Account(models.Model):
@@ -15,12 +12,6 @@ class Account(models.Model):
         verbose_name_plural = 'Contas de usuários'
 
     id = models.AutoField(primary_key=True)
-    uid = models.UUIDField(
-        unique=True,
-        editable=False,
-        default=uuid.uuid4,
-        verbose_name='Identificador Público'
-    )
     balance = models.DecimalField(
         verbose_name='Saldo',
         decimal_places=1,
@@ -30,6 +21,7 @@ class Account(models.Model):
         get_user_model(),
         on_delete=models.SET_NULL,
         null=True,
+        related_name='account',
     )
 
     def __str__(self):
@@ -37,7 +29,7 @@ class Account(models.Model):
         return account_name
 
     @classmethod
-    def deposit(cls, user, amount, reference=None):
+    def deposit(cls, user, amount):
         with transaction.atomic():
             account = cls.objects.select_for_update().get(owner=user)
             account.balance += Decimal(amount)
@@ -47,12 +39,11 @@ class Account(models.Model):
                 account=account,
                 transaction_type=AccountTransaction.TRANSACTION_TYPE_IN,
                 delta=amount,
-                reference=reference,
                 balance_after_transaction=account.balance,
             )
 
     @classmethod
-    def withdraw(cls, user, amount, reference=None):
+    def withdraw(cls, user, amount):
         with transaction.atomic():
             account = cls.objects.select_for_update().get(owner=user)
             # TODO:  Put validation to check for sufficient funds
@@ -63,7 +54,6 @@ class Account(models.Model):
                 account=account,
                 transaction_type=AccountTransaction.TRANSACTION_TYPE_OUT,
                 delta=amount,
-                reference=reference,
                 balance_after_transaction=account.balance,
             )
 
@@ -116,11 +106,6 @@ class AccountTransaction(models.Model):
         max_digits=5,
         help_text='Valor da transação',
     )
-    reference = models.ForeignKey(
-        Order,
-        on_delete=models.PROTECT,
-        null=True,
-    )
     balance_after_transaction = models.DecimalField(
         verbose_name='Saldo depois da transação',
         decimal_places=1,
@@ -137,11 +122,10 @@ class AccountTransaction(models.Model):
         return transaction_name
 
     @classmethod
-    def create(cls, account, transaction_type, delta, reference, balance_after_transaction):
+    def create(cls, account, transaction_type, delta, balance_after_transaction):
         return cls.objects.create(
             account=account,
             transaction_type=transaction_type,
             delta=delta,
-            reference=reference,
             balance_after_transaction=balance_after_transaction,
         )
