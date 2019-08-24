@@ -1,5 +1,10 @@
-from django.shortcuts import render
+from rest_framework.generics import ListCreateAPIView
+from rest_framework.viewsets import ViewSetMixin
+
+from .serializers import OrderSerializer
+from .models import Order
 
 
-def order(request):
-    pass
+class OrderViewSet(ViewSetMixin, ListCreateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

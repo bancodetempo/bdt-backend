@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'authentication.apps.AuthenticationConfig',
     'timebank.apps.TimebankConfig',
+    'rest_framework',
     'orders',
 ]
 
@@ -109,3 +110,6 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+REST_FRAMEWORK = {
+}
