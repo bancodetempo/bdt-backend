@@ -10,10 +10,13 @@ https://docs.djangoproject.com/en/2.2/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from decouple import config
 
 from whitenoise import WhiteNoise
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bdtapi.settings')
+settings_file = 'bdtapi.settings.{}'.format(config('ENV'))
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_file)
 
 application = get_wsgi_application()
 application = WhiteNoise(application)
