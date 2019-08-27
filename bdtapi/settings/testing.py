@@ -1,0 +1,1 @@
+from bdtapi.settings.base import *

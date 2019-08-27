@@ -3,9 +3,12 @@
 import os
 import sys
 
+from decouple import config
+
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'bdtapi.settings')
+    settings_file = 'bdtapi.settings.{}'.format(config('ENV'))
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_file)
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
