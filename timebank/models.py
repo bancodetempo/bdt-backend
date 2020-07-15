@@ -58,7 +58,7 @@ class Account(models.Model):
             )
 
     @classmethod
-    def create_user_with_account(cls, user_object, balance):
+    def create_user_with_account(cls, user_object, balance=None):
         user_model = get_user_model()
 
         if 'password' in user_object:
@@ -76,7 +76,8 @@ class Account(models.Model):
             balance=0,
             owner=new_user,
         )
-        created_account.deposit(user=new_user, amount=balance)
+        if balance:
+            created_account.deposit(user=new_user, amount=balance)
         return created_account, new_user
 
 
