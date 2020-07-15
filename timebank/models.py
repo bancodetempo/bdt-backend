@@ -61,11 +61,11 @@ class Account(models.Model):
     def create_user_with_account(cls, user_email, password=None):
         user_model = get_user_model()
         new_user = user_model.create_user(
-                user_email,
-                password,
-                is_active=False,
-                is_staff=False,
-            )
+            user_email,
+            password,
+            is_active=False,
+            is_staff=False,
+        )
 
         created_account = cls.objects.create(
             balance=0,
@@ -118,7 +118,8 @@ class AccountTransaction(models.Model):
 
     def __str__(self):
         transaction_type = self.get_transaction_type_display()
-        transaction_name = '{} {} {}'.format(self.delta, transaction_type, self.account.owner.email)
+        transaction_name = '{} {} {}'.format(
+            self.delta, transaction_type, self.account.owner.email)
         return transaction_name
 
     @classmethod
