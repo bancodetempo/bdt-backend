@@ -41,8 +41,8 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(max_length=256, blank=True, null=True)
-    last_name = models.CharField(max_length=256, blank=True, null=True)
+    first_name = models.CharField(max_length=256, default='')
+    last_name = models.CharField(max_length=256, default='')
     email = models.EmailField(_('endereço de email'),
                               unique=True, blank=True, null=True)
     # id used to import users from the google drive spreadsheet
@@ -80,3 +80,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         extra_fields['is_staff'] = is_staff
         created_user = cls.objects.create_user(email, password, **extra_fields)
         return created_user
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
