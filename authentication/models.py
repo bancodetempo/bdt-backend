@@ -39,8 +39,14 @@ class CustomUserManager(BaseUserManager):
 
         return self._create_user(email, password, **extra_fields)
 
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(_('endereço de email'), unique=True)
+    first_name = models.CharField(max_length=256, default='')
+    last_name = models.CharField(max_length=256, default='')
+    email = models.EmailField(_('endereço de email'),
+                              unique=True, blank=True, null=True)
+    # id used to import users from the google drive spreadsheet
+    google_drive_spreadsheet_id = models.CharField(max_length=256, unique=True)
     is_active = models.BooleanField(
         _('ativo'),
         default=True,
@@ -54,7 +60,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         default=False,
         help_text=_('Indica se o usuário tem acesso à área administrativa.'),
     )
-    date_joined = models.DateTimeField(_('data do cadastro'), default=timezone.now)
+    date_joined = models.DateTimeField(
+        _('data do cadastro'), default=timezone.now)
 
     objects = CustomUserManager()
 
@@ -73,3 +80,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         extra_fields['is_staff'] = is_staff
         created_user = cls.objects.create_user(email, password, **extra_fields)
         return created_user
+
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)

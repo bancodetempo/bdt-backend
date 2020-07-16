@@ -58,19 +58,26 @@ class Account(models.Model):
             )
 
     @classmethod
-    def create_user_with_account(cls, user_email, password=None):
+    def create_user_with_account(cls, user_object, balance=None):
         user_model = get_user_model()
-        new_user = user_model.create_user(
-                user_email,
-                password,
-                is_active=False,
-                is_staff=False,
-            )
+
+        if 'password' in user_object:
+            password = user_object.pop('password')
+
+        new_user = user_model.objects.create(
+            **user_object,
+        )
+
+        if password:
+            new_user.set_password(password)
+            new_user.save()
 
         created_account = cls.objects.create(
             balance=0,
             owner=new_user,
         )
+        if balance:
+            created_account.deposit(user=new_user, amount=balance)
         return created_account, new_user
 
 
@@ -118,7 +125,8 @@ class AccountTransaction(models.Model):
 
     def __str__(self):
         transaction_type = self.get_transaction_type_display()
-        transaction_name = '{} {} {}'.format(self.delta, transaction_type, self.account.owner.email)
+        transaction_name = '{} {} {}'.format(
+            self.delta, transaction_type, self.account.owner.email)
         return transaction_name
 
     @classmethod

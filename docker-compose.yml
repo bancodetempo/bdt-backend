@@ -10,10 +10,12 @@ services:
         - db-data:/var/lib/postgresql/data
   api:
     build: .
+    image: bdt/backend-api
     volumes:
       - .:/code
     ports:
       - "8000:8000"
+      - "8888:8888"
     depends_on:
       - db
     env_file:

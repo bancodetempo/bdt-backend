@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'authentication.apps.AuthenticationConfig',
+    'django_extensions',
     'timebank.apps.TimebankConfig',
     'rest_framework',
     'orders',
@@ -109,3 +110,12 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+# Additional IPython arguments to use
+# IPYTHON_ARGUMENTS = ["--ip=0.0.0.0"]
+
+IPYTHON_KERNEL_DISPLAY_NAME = "Django Shell-Plus"
+
+# Additional Notebook arguments to use
+NOTEBOOK_ARGUMENTS = ["--ip=0.0.0.0", "--allow-root"]
+NOTEBOOK_KERNEL_SPEC_NAMES = ["python3", "python"]
