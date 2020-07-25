@@ -1,3 +1,15 @@
 from django.test import TestCase
+from rest_framework.test import APITestCase
 
-# Create your tests here.
+from authentication.models import CustomUser
+
+class AuthenticationViewSetTest(APITestCase):
+
+    def test_update(self):
+        CustomUser.objects.create(google_drive_spreadsheet_id='123')
+        user = CustomUser.objects.get(google_drive_spreadsheet_id='123')
+        response = self.client.put('/api/v0/authentication/request_user_validation/', { "email": 'test@email.com', 'google_drive_spreadsheet_id': user.google_drive_spreadsheet_id }, format="json")
+        user = CustomUser.objects.get(google_drive_spreadsheet_id='123')
+        self.assertEqual(user.email, 'test@email.com')
+        self.assertEqual(response.status_code, 200)
+
