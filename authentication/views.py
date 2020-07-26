@@ -5,6 +5,8 @@ from rest_framework.decorators import action
 from .serializers import AuthenticationSerializer
 from .models import CustomUser
 
+from .mailers import ConfirmUserRegistrationMail
+
 
 class AuthenticationViewSet(viewsets.ModelViewSet):
     """
@@ -12,6 +14,10 @@ class AuthenticationViewSet(viewsets.ModelViewSet):
     """
     queryset = CustomUser.objects.all()
     serializer_class = AuthenticationSerializer
+
+    def perform_update(self, serializer):
+        instance = serializer.save()
+        ConfirmUserRegistrationMail.send_to([instance.email])
 
     @action(methods=['put'], detail=False)
     def request_user_validation(self, request):

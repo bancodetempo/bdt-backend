@@ -1,5 +1,7 @@
 from django.db import models
 from decouple import config
+from django.core.mail import send_mail
+
 
 class ConfirmUserRegistrationMail:
         subject = 'Confirme seu cadastro'
