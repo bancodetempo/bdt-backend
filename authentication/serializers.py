@@ -1,13 +1,15 @@
 from rest_framework import serializers
 from .models import CustomUser
+from .mailers import ConfirmUserRegistrationMail
 
-class AuthencationSerializer(serializers.ModelSerializer):
+
+class AuthenticationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['email', 'google_drive_spreadsheet_id']
 
-        def update(self, validated_data):
-            user = super().update(user, validated_data)
-            return user
+        def perform_update(self, serializer):
+            instance = serializer.save()
+            ConfirmUserRegistrationMail.send_to([instance.email])
 
 
