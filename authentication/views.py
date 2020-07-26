@@ -26,5 +26,5 @@ class AuthenticationViewSet(viewsets.ModelViewSet):
         serializer = AuthenticationSerializer(user, data=data, partial=True)
 
         serializer.is_valid(raise_exception=True)
-        instance = self.perform_update(serializer)
+        self.perform_update(serializer)
         return Response(serializer.data)
