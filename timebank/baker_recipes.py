@@ -1,7 +1,9 @@
-from model_mommy.recipe import Recipe, foreign_key
+
+from model_bakery import baker
+from model_bakery.recipe import Recipe, foreign_key
 
 from .models import Account, AccountTransaction
-from authentication.test_recipes import user_recipe
+from authentication.baker_recipes import user_recipe
 
 
 account_recipe = Recipe(
