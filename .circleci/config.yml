@@ -113,4 +113,4 @@ workflows:
             branches:
               ignore:
                 - master
-                - staging
+                - development
