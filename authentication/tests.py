@@ -17,7 +17,7 @@ class AuthenticationViewSetTest(APITestCase):
 
         )
 
-    def test_search_user_by_first_name(self):
+    def test_search_user_by_first_name_containing(self):
         baker.make_recipe(
             'authentication.user_recipe',
             first_name="Ricky",
