@@ -82,21 +82,35 @@ jobs:
 
 workflows:
   version: 2
-  build-deploy:
+  production-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: master
       - deploy:
           requires:
             - build
           filters:
             branches:
               only: master
-  build-deploy-development:
+  development-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: development
       - deploy-development:
           requires:
             - build
           filters:
             branches:
               only: development
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - master
+                - staging
