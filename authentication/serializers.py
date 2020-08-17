@@ -5,5 +5,5 @@ from .models import CustomUser
 class AuthenticationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['email', 'google_drive_spreadsheet_id']
-
+        fields = ('id', 'first_name', 'last_name',
+                  'email', 'google_drive_spreadsheet_id')

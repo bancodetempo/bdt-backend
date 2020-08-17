@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'timebank.apps.TimebankConfig',
     'rest_framework',
+    'django_filters',
     'orders',
 ]
 
@@ -119,3 +120,7 @@ IPYTHON_KERNEL_DISPLAY_NAME = "Django Shell-Plus"
 # Additional Notebook arguments to use
 NOTEBOOK_ARGUMENTS = ["--ip=0.0.0.0", "--allow-root"]
 NOTEBOOK_KERNEL_SPEC_NAMES = ["python3", "python"]
+
+
+# MAILING
+SMTP_USERNAME = config('SMTP_USERNAME', None)
