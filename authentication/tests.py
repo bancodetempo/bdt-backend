@@ -1,5 +1,3 @@
-import json
-
 from model_bakery import baker
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -25,11 +23,12 @@ class AuthenticationViewSetTest(APITestCase):
             google_drive_spreadsheet_id="00421",
 
         )
-        url_with_parameters = "{}?search={}".format(self.endpoint, "Arnold")
+        first_name_searched = 'Arnold'
+        url_with_parameters = f'{self.endpoint}?search={first_name_searched}'
         response = self.client.get(url_with_parameters)
 
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        response_content = json.loads(response.content)
+        response_content = response.data
         self.assertEquals(len(response_content), 1)
         self.assertEquals(response_content[0]['id'], self.user.id)
 
@@ -41,12 +40,12 @@ class AuthenticationViewSetTest(APITestCase):
             google_drive_spreadsheet_id="00421",
 
         )
-        url_with_parameters = "{}?search={}".format(
-            self.endpoint, "Schwarz")
+        last_name_search_parameter = "Schwarz"
+        url_with_parameters = f'{self.endpoint}?search={last_name_search_parameter}'
         response = self.client.get(url_with_parameters)
 
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        response_content = json.loads(response.content)
+        response_content = response.data
         self.assertEquals(len(response_content), 1)
         self.assertEquals(response_content[0]['id'], self.user.id)
 
@@ -58,12 +57,12 @@ class AuthenticationViewSetTest(APITestCase):
             google_drive_spreadsheet_id="00421",
 
         )
-        url_with_parameters = "{}?search={}".format(
-            self.endpoint, "00425")
+        google_drive_spreadsheet_id_search_value = "00425"
+        url_with_parameters = f'{self.endpoint}?search={google_drive_spreadsheet_id_search_value}'
         response = self.client.get(url_with_parameters)
 
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        response_content = json.loads(response.content)
+        response_content = response.data
         self.assertEquals(len(response_content), 1)
         self.assertEquals(response_content[0]['id'], self.user.id)
 
@@ -79,9 +78,10 @@ class AuthenticationViewSetTest(APITestCase):
             google_drive_spreadsheet_id="00421",
 
         )
-        url_with_parameters = "{}?search={}".format(
-            self.endpoint, "0042")
+        google_drive_spreadsheet_id_search_value = "0042"
+        url_with_parameters = f'{self.endpoint}?search={google_drive_spreadsheet_id_search_value}'
+
         response = self.client.get(url_with_parameters)
         self.assertEquals(response.status_code, status.HTTP_200_OK)
-        response_content = json.loads(response.content)
+        response_content = response.data
         self.assertEquals(len(response_content), 0)
