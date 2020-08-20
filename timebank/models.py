@@ -60,6 +60,7 @@ class Account(models.Model):
     @classmethod
     def create_user_with_account(cls, user_object, balance=None):
         user_model = get_user_model()
+        password = None
 
         if 'password' in user_object:
             password = user_object.pop('password')

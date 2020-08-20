@@ -15,6 +15,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=True, cast=bool)
+ENV = config('ENV')
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default=None, cast=Csv())
 
@@ -29,9 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'authentication.apps.AuthenticationConfig',
-    'django_extensions',
     'timebank.apps.TimebankConfig',
     'rest_framework',
+    'django_filters',
     'orders',
 ]
 
@@ -119,3 +120,11 @@ IPYTHON_KERNEL_DISPLAY_NAME = "Django Shell-Plus"
 # Additional Notebook arguments to use
 NOTEBOOK_ARGUMENTS = ["--ip=0.0.0.0", "--allow-root"]
 NOTEBOOK_KERNEL_SPEC_NAMES = ["python3", "python"]
+
+
+# MAILING
+SMTP_USERNAME = config('SMTP_USERNAME', None)
+
+
+if ENV not in ['production', 'development']:
+    INSTALLED_APPS += ['django_extensions']

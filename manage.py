@@ -7,7 +7,7 @@ from decouple import config
 
 
 def main():
-    settings_file = 'bdtapi.settings.{}'.format(config('ENV'))
+    settings_file = 'bdtapi.settings.base'
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_file)
     try:
         from django.core.management import execute_from_command_line
