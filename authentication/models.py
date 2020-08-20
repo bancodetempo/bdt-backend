@@ -41,12 +41,15 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    first_name = models.CharField(max_length=256, default='')
-    last_name = models.CharField(max_length=256, default='')
+    first_name = models.CharField(
+        max_length=256, default='', null=True, blank=True)
+    last_name = models.CharField(
+        max_length=256, default='', null=True, blank=True)
     email = models.EmailField(_('endereço de email'),
                               unique=True, blank=True, null=True)
     # id used to import users from the google drive spreadsheet
-    google_drive_spreadsheet_id = models.CharField(max_length=256, unique=True)
+    google_drive_spreadsheet_id = models.CharField(
+        max_length=256, null=True, blank=True)
     is_active = models.BooleanField(
         _('ativo'),
         default=True,
