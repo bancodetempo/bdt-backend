@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'authentication.apps.AuthenticationConfig',
+    'user',
     'timebank.apps.TimebankConfig',
     'rest_framework',
     'django_filters',
@@ -97,7 +97,7 @@ AUTH_PASSWORD_VALIDATORS = []
 # Custom user model
 # https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project
 # https://docs.djangoproject.com/en/2.2/topics/auth/customizing/#specifying-a-custom-user-model
-AUTH_USER_MODEL = 'authentication.CustomUser'
+AUTH_USER_MODEL = 'user.CustomUser'
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/

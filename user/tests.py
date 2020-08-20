@@ -3,12 +3,12 @@ from rest_framework import status
 from rest_framework.test import APITestCase
 
 
-class AuthenticationViewSetTest(APITestCase):
-    endpoint = '/api/v0/authentication/'
+class UserViewSetTestCase(APITestCase):
+    endpoint = '/api/v0/users/'
 
     def setUp(self):
         self.user = baker.make_recipe(
-            'authentication.user_recipe',
+            'user.user_recipe',
             first_name="Arnold",
             last_name="Schwarznegger",
             google_drive_spreadsheet_id="00425",
@@ -17,7 +17,7 @@ class AuthenticationViewSetTest(APITestCase):
 
     def test_search_user_by_first_name_containing(self):
         baker.make_recipe(
-            'authentication.user_recipe',
+            'user.user_recipe',
             first_name="Ricky",
             last_name="Martin",
             google_drive_spreadsheet_id="00421",
@@ -34,7 +34,7 @@ class AuthenticationViewSetTest(APITestCase):
 
     def test_search_user_by_last_name_containing(self):
         baker.make_recipe(
-            'authentication.user_recipe',
+            'user.user_recipe',
             first_name="Ricky",
             last_name="Martin",
             google_drive_spreadsheet_id="00421",
@@ -51,7 +51,7 @@ class AuthenticationViewSetTest(APITestCase):
 
     def test_search_user_by_google_drive_exact_value(self):
         baker.make_recipe(
-            'authentication.user_recipe',
+            'user.user_recipe',
             first_name="Ricky",
             last_name="Martin",
             google_drive_spreadsheet_id="00421",
@@ -72,7 +72,7 @@ class AuthenticationViewSetTest(APITestCase):
         to return a record
         """
         baker.make_recipe(
-            'authentication.user_recipe',
+            'user.user_recipe',
             first_name="Ricky",
             last_name="Martin",
             google_drive_spreadsheet_id="00421",

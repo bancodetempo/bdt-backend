@@ -5,7 +5,7 @@ from decimal import Decimal
 
 from django.core.management.base import BaseCommand, CommandError
 
-from authentication.models import CustomUser
+from user.models import CustomUser
 from timebank.models import Account
 
 

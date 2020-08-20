@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from authentication.urls import urlpatterns as authentication_urls
+from user.urls import urlpatterns as user_urls
 from orders.urls import urlpatterns as order_urls
 
 
-api_urls = authentication_urls + order_urls
+api_urls = user_urls + order_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
