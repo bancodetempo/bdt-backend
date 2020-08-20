@@ -1,7 +1,7 @@
 from django.test import TestCase
 from model_bakery import baker
 
-from authentication.baker_recipes import user_recipe
+from user.baker_recipes import user_recipe
 from timebank.baker_recipes import account_recipe
 
 from .models import Order
@@ -11,9 +11,9 @@ class OrderTestCase(TestCase):
 
     def setUp(self):
         self.user_a = baker.make_recipe(
-            'authentication.user_recipe', email='user_a@email.com')
+            'user.user_recipe', email='user_a@email.com')
         self.user_b = baker.make_recipe(
-            'authentication.user_recipe', email='user_b@email.com')
+            'user.user_recipe', email='user_b@email.com')
 
         self.account_a = baker.make_recipe(
             'timebank.account_recipe', owner=self.user_a)

@@ -2,7 +2,7 @@ from django.db.models import Q
 from django.db.models.query import QuerySet
 from django_filters import rest_framework as filters
 
-from authentication.models import CustomUser
+from user.models import CustomUser
 
 
 class UserFilter(filters.FilterSet):
