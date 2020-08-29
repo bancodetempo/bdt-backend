@@ -61,7 +61,7 @@ class Order(models.Model):
         requester = str(self.requester)
         grantor = str(self.grantor)
 
-        exhibition = '{} solicitou {} de {}'.format(requester, description, grantor)
+        exhibition = f'{requester} solicitou {description} de {grantor} por {price} '
 
         return exhibition
 
@@ -77,6 +77,3 @@ class Order(models.Model):
 
             Account.withdraw(requester, order_price)
             Account.deposit(grantor, order_price)
-
-
-
