@@ -50,6 +50,7 @@ class Order(models.Model):
     status = models.IntegerField(
         choices=STATUS_CHOICES,
         verbose_name='Status do pedido',
+        default=0,
     )
     created = models.DateTimeField(
         auto_now_add=True
