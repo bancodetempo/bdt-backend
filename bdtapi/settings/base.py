@@ -140,6 +140,4 @@ NOTEBOOK_KERNEL_SPEC_NAMES = ["python3", "python"]
 # MAILING
 SMTP_USERNAME = config('SMTP_USERNAME', None)
 
-
-if ENV not in ['production', 'development']:
-    INSTALLED_APPS += ['django_extensions']
+INSTALLED_APPS += ['django_extensions']
