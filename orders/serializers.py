@@ -10,7 +10,6 @@ class OrderSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         requester = attrs['requester']
-        grantor = attrs['grantor']
         order_price = attrs['order_price']
 
         requester_account_balance = requester.account.balance
