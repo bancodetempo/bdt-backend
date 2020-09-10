@@ -5,7 +5,7 @@ from model_bakery import baker
 from user.baker_recipes import user_recipe
 from timebank.baker_recipes import account_recipe
 
-from orders.models import Order
+from .models import Order
 
 
 class OrderTestCase(TestCase):
