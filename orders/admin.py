@@ -7,6 +7,7 @@ from orders.models import Order
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('requester', 'description',
                     'grantor', 'order_price', 'status')
+    list_filter = ('status',)
     actions = ['confirm_orders']
 
     def confirm_orders(self, request, queryset):
