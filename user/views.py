@@ -1,5 +1,4 @@
-from rest_framework import viewsets
-from django_filters import rest_framework as filters
+from rest_framework import viewsets, filters
 
 from .serializers import UserSerializer
 from .models import CustomUser
@@ -12,5 +11,5 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
-    filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = UserFilter
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('first_name', 'last_name', '=google_drive_spreadsheet_id')
