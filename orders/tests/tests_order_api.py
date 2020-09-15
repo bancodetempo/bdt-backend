@@ -53,3 +53,21 @@ class OrderViewSetTestCase(APITestCase):
         response_content = json.loads(response.content)
         non_field_errors = response_content['non_field_errors']
         self.assertTrue('Saldo insuficiente' in non_field_errors)
+
+    def test_request_order_to_self_returns_400_status_code_with_message(self):
+
+        order_data = {
+            'requester': self.user_a.id,
+            'grantor': self.user_a.id,
+            'order_price': 5,
+            'description': 'tengo plata',
+        }
+        response = self.client.post(self.url, order_data)
+
+        self.assertEquals(
+            response.status_code, status.HTTP_400_BAD_REQUEST
+        )
+        response_content = json.loads(response.content)
+        non_field_errors = response_content['non_field_errors']
+        self.assertTrue(
+            'Não é possível solicitar troca de horas para si mesma(o)' in non_field_errors)
